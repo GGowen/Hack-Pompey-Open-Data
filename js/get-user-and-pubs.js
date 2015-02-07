@@ -35,12 +35,18 @@ function getPubs(city, numPubs, callback){
                 res = name.split(",");
                 end = (res.length) - 2;
 
+                getDrink(function(drink){
+                    console.log(drink);
+                });
+
 
                 pubArray[i] = {
                     Name: res[0],
                     Lat: pubData[i].lat,
                     Long: pubData[i].lon,
-                    PlaceId: pubData[i].place_id
+                    PlaceId: pubData[i].place_id,
+                    Drink: drink.drink,
+                    Par: drink.par
                 };
 
                 //console.log(pubArray[i]);
@@ -49,6 +55,24 @@ function getPubs(city, numPubs, callback){
         callback(pubArray);
 
         });
+}
+
+function getDrink(callback){
+    var drinkArray = [
+        {drink: "Vodka Lemonade", par: 2}, 
+        {drink: "Jägerbomb", par: 1}, 
+        {drink: "Pint of Beer", par: 3}, 
+        {drink: "Large Wine (Red or White)", par: 2}, 
+        {drink: "Pint of Cider", par: 3}, 
+        {drink: "2x Alcopop", par: 2}, 
+        {drink: "Gin and Tonic", par: 2}, 
+        {drink: "Tequilla Shot", par: 1}, 
+        {drink: "Rum and Coke", par: 2}, 
+        {drink: "Neat Whiskey Shot", par: 1}
+    ];
+
+    var i = Math.floor(Math.random() * drinkArray.length);
+    callback(drinkArray[i]);
 }
 
 function getPubsFromUserLocation(postCode, numPubs, callback){

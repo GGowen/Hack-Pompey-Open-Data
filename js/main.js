@@ -1,4 +1,4 @@
-var map = L.map('map').setView([51.505, -0.09], 13);
+var map = L.map('map').setView([50.789258180787506, -1.0723918339063396], 13);
 
 L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
     maxZoom: 18,
@@ -8,9 +8,14 @@ L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
     id: 'examples.map-i875mjb7'
 }).addTo(map);
 
+$.ajax({
+    url: "http://nominatim.openstreetmap.org/search?format=json&q=portsmouth+pubs&limit=30",
+    context: document.body
+}).done(function (e) {
 
-L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+    for (var i = 0; i < e.length - 1; i++) {
+        L.marker([e[i].lat, e[i].lon]).addTo(map)
+            .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+    }
 
-
-map.on('click', onMapClick);
+});

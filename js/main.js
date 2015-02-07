@@ -3,6 +3,16 @@ var startLon;
 var map;
 var routing;
 
+var map = L.map('map').setView([51.5, 0.1167], 13);
+
+L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    id: 'examples.map-i875mjb7'
+}).addTo(map);
+
 function CalculateRoute(postcode, holeNum) {
 
     getPubsFromUserLocation(postcode, 30, function (e) {
@@ -10,25 +20,19 @@ function CalculateRoute(postcode, holeNum) {
         startLat = e.location.Latitude;
         startLon = e.location.Longitude;
 
-        map = L.map('map').setView([startLat, startLon], 13);
-
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'examples.map-i875mjb7'
-        }).addTo(map);
+        map.setView([startLat, startLon], 13);
 
         var name;
-        var waypoints = [];
+        var waypoints = [L.latLng(startLat, startLon)];
 
         for (var i = 0; i < e.pubs.length - 1; i++) {
 
             name = e.pubs[i].Name.split(",")[0];
 
-            waypoints[i] = L.latLng(e.pubs[i].Lat, e.pubs[i].Long);
-            waypoints[i].name = name;
+            waypoints[i + 1] = L.latLng(e.pubs[i].Lat, e.pubs[i].Long);
+            waypoints[i + 1].name = name;
+            waypoints[i + 1].drink = e.pubs[i].Drink;
+            waypoints[i + 1].par = e.pubs[i].Par;
 
         }
         routing = L.Routing.control({
@@ -48,14 +52,22 @@ function CalculateRoute(postcode, holeNum) {
 
 function calculateMarkers(i, wp) {
 
+    var icnPath = 'icons/golf_hole.png';
+    var label = "<strong>Hole " + i + ": " + wp.latLng.name + "</strong><br />" + wp.latLng.drink + ", par " + wp.latLng.par;
+
+    if (i === 0) {
+        icnPath = 'icons/timer.jpg';
+        label = "<strong>Start</strong>";
+    }
+
     var icn = L.icon({
-        iconUrl: 'icons/hole.png',
+        iconUrl: icnPath,
         iconSize: [24, 24]
     });
 
     var popup = L.popup()
         .setLatLng(wp.latLng)
-        .setContent("<strong>" + wp.latLng.name + "</strong><br />Hole " + (i + 1))
+        .setContent(label)
 
     map.addLayer(popup);
 
@@ -102,5 +114,3 @@ function SortByDist(a, b) {
     var bDist = b.distance;
     return ((aDist < bDist) ? -1 : ((aDist > bDist) ? 1 : 0));
 }
-
-CalculateRoute("me157ed", 9);

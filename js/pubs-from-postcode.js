@@ -22,14 +22,7 @@ function pubsFromPostcode(postCode, numPubs) {
 
         console.log(user);
 
-
-        userLat = data.result.latitude;
-        userLong = data.result.longitude;
-        userArea = data.result.admin_district; // Should output city name: Portsmouth, Newcastle, Glasgow, etc
-        console.log(userLat);
-        console.log(userLong);
-
-        var pubUrl = "http://nominatim.openstreetmap.org/search?format=json&q=" + userArea + "+pubs&limit=" + numOfPubs; // URL includes
+        var pubUrl = "http://nominatim.openstreetmap.org/search?format=json&q=" + user.City + "+pubs&limit=" + numOfPubs; // URL includes
 
         $.ajax({
             url: pubUrl,

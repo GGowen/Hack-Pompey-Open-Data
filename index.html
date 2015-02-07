@@ -67,9 +67,16 @@
 
     <div id="map"></div>
 
+    <div id="scorecard" class="hide">
+    	<div id="mydivtag">
+    		
+    	</div>
+    </div>
+
     <script src="js/get-user-and-pubs.js"></script>
     <script src="js/pubs-from-postcode.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/scorecard.js"></script>
 
     <!-- </div>/.container -->
 
@@ -79,7 +86,12 @@
             $("#btnSearch").click(function () {
 
                 CalculateRoute($("#txtPostcode").val(), $("#ddlHoles").val());
+
+
                 return false;
+
+
+
             });
 
         });

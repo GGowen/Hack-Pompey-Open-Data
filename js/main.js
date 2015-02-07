@@ -11,6 +11,8 @@ L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
     id: 'examples.map-i875mjb7'
 }).addTo(map);
 
+L.marker([startLat, startLon]).addTo(map);
+
 $.ajax({
     url: "http://nominatim.openstreetmap.org/search?format=json&q=portsmouth+pubs&limit=30",
     context: document.body
@@ -27,16 +29,35 @@ $.ajax({
 
     }
     routing = L.Routing.control({
-        waypoints: getClosestPubs(waypoints, 9),
-        draggableWaypoints: false
+        plan: L.Routing.plan(getClosestPubs(waypoints, 9), {
+            createMarker: function (i, wp) {
+                return calculateMarkers(i, wp);
+            }
+        })
     }).addTo(map);
 
 });
 
+function calculateMarkers(i, wp) {
+
+    var icn = L.icon({
+        iconUrl: 'images/hole.png',
+
+        iconSize: [24, 24], // size of the icon
+        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62], // the same for the shadow
+        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    return L.marker(wp.latLng, {
+        icon: icn
+    });
+}
+
 function getClosestPubs(waypoints, pubNumber) {
 
     for (var i = 0; i < waypoints.length - 1; i++) {
-        waypoints[i].distance = getDistanceFromLatLonInKm(startLat, startLon, waypoints[i].lat, waypoints[i].lon);
+        waypoints[i].distance = getDistanceFromLatLonInKm(startLat, startLon, waypoints[i].lat, waypoints[i].lng);
     }
 
     waypoints.sort(SortByDist);
@@ -66,5 +87,7 @@ function deg2rad(deg) {
 }
 
 function SortByDist(a, b) {
-    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    var aDist = a.distance;
+    var bDist = b.distance;
+    return ((aDist < bDist) ? -1 : ((aDist > bDist) ? 1 : 0));
 }

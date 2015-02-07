@@ -6,8 +6,8 @@ var routing;
 L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
     id: 'examples.map-i875mjb7'
 }).addTo(map);
 
@@ -43,8 +43,6 @@ function getClosestPubs(waypoints, pubNumber) {
 
     if (waypoints.length > pubNumber) {
         waypoints = waypoints.slice(0, pubNumber);
-        L.marker([e[i].lat, e[i].lon]).addTo(map)
-        .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
     }
 
     return waypoints;

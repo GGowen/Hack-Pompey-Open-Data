@@ -27,7 +27,8 @@ $.ajax({
 
     }
     routing = L.Routing.control({
-        waypoints: getClosestPubs(waypoints, 9)
+        waypoints: getClosestPubs(waypoints, 9),
+        draggableWaypoints: false
     }).addTo(map);
 
 });

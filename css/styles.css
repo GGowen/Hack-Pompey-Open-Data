@@ -5,3 +5,30 @@
 body {
 	padding-top: 50px;
 }
+
+.navbar,.navbar-inverse {
+	background-color: #2ecc71;
+	border: none;
+}
+
+.btn,.btn-success{
+	background-color: #ea6153;
+	border-color: #ea6153;
+}
+
+.btn:hover,.btn-success:hover,
+.btn:active,.btn-success:active{
+	background-color: #ed796d;
+	border-color: #ea6153;
+}
+
+.navbar-inverse span.navbar-brand, span.navbar-brand, span.navbar-brand:hover{
+	color: white;
+}
+
+
+
+/*     
+** emerald: #2ecc71
+** alzarin: #ea6153
+*/

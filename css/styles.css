@@ -6,9 +6,16 @@ body {
 	padding-top: 50px;
 }
 
+.logo {
+	float: left;
+	margin-right: 15px;
+	margin-top: 3px;
+}
+
 .navbar,.navbar-inverse {
-	background-color: #2ecc71;
+	/*background-color: #2ecc71;*/
 	border: none;
+	background: #825a2c;
 }
 
 .btn,.btn-success{

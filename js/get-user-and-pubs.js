@@ -51,7 +51,7 @@ function getPubs(city, numPubs, callback){
         });
 }
 
-function getPubsFromUserLocation(postCode, numPubs){
+function getPubsFromUserLocation(postCode, numPubs, callback){
 	var data = {};
 
 	whereAreYou(postCode, function(location){
@@ -60,11 +60,14 @@ function getPubsFromUserLocation(postCode, numPubs){
 		getPubs(location.City, numPubs, function(pubs){
 			
 			data.pubs = pubs;
-			console.log(location);
-			console.log(pubs);
+			//console.log(location);
+			//console.log(pubs);
+          callback(data);
 
 		});
 
 	});
+
+
 
 }
